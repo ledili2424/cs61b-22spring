@@ -137,7 +137,13 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (int col = 0; col < b.size(); col++) {
+            for (int row  = 0; row < b.size();row++) {
+                if (b.tile(col, row) == null) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +153,16 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int col = 0; col < b.size(); col++) {
+            for (int row = 0; row < b.size(); row++) {
+                Tile tile = b.tile(col, row);
+                if (tile != null) {
+                    if (tile.value() == MAX_PIECE) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -158,7 +173,40 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        if ((emptySpaceExists(b)) || (twoAdjacentInAColumn(b)) || (twoAdjacentInARow(b))){
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean twoAdjacentInARow(Board b) {
+        for (int row = 0; row < b.size(); row++) {
+            for (int col = 0; col < b.size() - 1; col++) {
+                Tile tile1 = b.tile(col, row);
+                Tile tile2 = b.tile(col + 1, row);
+                if ((tile1 != null) && (tile2 != null)) {
+                    if (tile1.value() == tile2.value()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private static boolean twoAdjacentInAColumn(Board b) {
+        for (int row = 0; row < b.size() - 1; row++) {
+            for (int col = 0; col < b.size(); col++) {
+                Tile tile1 = b.tile(col, row);
+                Tile tile2 = b.tile(col, row + 1);
+                if ((tile1 != null) && (tile2 != null)) {
+                    if (tile1.value() == tile2.value()) {
+                        return true;
+                    }
+
+                }
+            }
+        }
         return false;
     }
 
